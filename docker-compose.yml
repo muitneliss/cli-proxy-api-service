@@ -1,9 +1,29 @@
 services:
   cli-proxy-api:
     image: eceasy/cli-proxy-api:latest
+    env_file: .env
     volumes:
-      - ./config.yaml:/CLIProxyAPI/config.yaml:ro
+      - ./config.yaml.tpl:/tmp/config.yaml.tpl:ro
       - cli-proxy-api-auth:/root/.cli-proxy-api
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        set -e
+        if [ -z "$${API_KEYS:-}" ]; then
+          echo "ERROR: API_KEYS env var required (comma-separated)" >&2
+          exit 1
+        fi
+        keys_yaml=""
+        old_ifs="$$IFS"
+        IFS=','
+        for k in $$API_KEYS; do
+          keys_yaml="$${keys_yaml}  - \"$${k}\"
+        "
+        done
+        IFS="$$old_ifs"
+        awk -v keys="$$keys_yaml" '/^api-keys:/ { print; printf "%s", keys; next } { print }' /tmp/config.yaml.tpl > /CLIProxyAPI/config.yaml
+        exec ./CLIProxyAPI
     networks:
       - dokploy-network
     restart: always
