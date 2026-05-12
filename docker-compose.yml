@@ -2,7 +2,7 @@ services:
   cli-proxy-api:
     image: eceasy/cli-proxy-api:latest
     volumes:
-      - ./config.yaml:/CLIProxyAPI/config.yaml:ro
+      - ./config.yaml:/CLIProxyAPI/config.yaml
       - cli-proxy-api-auth:/root/.cli-proxy-api
     networks:
       - dokploy-network
