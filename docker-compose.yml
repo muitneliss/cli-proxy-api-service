@@ -1,0 +1,16 @@
+services:
+  cli-proxy-api:
+    image: eceasy/cli-proxy-api:latest
+    volumes:
+      - ./config.yaml:/CLIProxyAPI/config.yaml:ro
+      - cli-proxy-api-auth:/root/.cli-proxy-api
+    networks:
+      - dokploy-network
+    restart: always
+
+volumes:
+  cli-proxy-api-auth:
+
+networks:
+  dokploy-network:
+    external: true
