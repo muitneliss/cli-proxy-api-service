@@ -18,6 +18,12 @@ Edit `api-keys` in `config.yaml` before deploy. Auth state persists in named vol
 
 ## Install Codex CLI
 
+One-liner (no clone):
+```bash
+curl -fsSL https://raw.githubusercontent.com/tini-works/tini-cli-proxy-api/main/install-codex.sh | OPENAI_API_KEY=sk-xxx bash
+```
+
+Or from a checkout:
 ```bash
 OPENAI_API_KEY=sk-xxx sh install-codex.sh
 ```
@@ -30,7 +36,7 @@ Requires `npm` or `brew`. Fails fast if `OPENAI_API_KEY` env var missing.
 
 ## Config notes
 
-- API keys: set `API_KEYS` in `.env` (comma-separated); injected into `api-keys` list at container boot
+- API keys: edit `api-keys` list directly in `config.yaml`
 - Provider keys: `gemini-api-key`, `codex-api-key`, `claude-api-key`, `vertex-api-key`, `openai-compatibility`
 - Routing strategy: `round-robin` (default) or `fill-first`
 - Session affinity: off by default; toggle `routing.session-affinity`
