@@ -1,7 +1,8 @@
 services:
   cli-proxy-api:
     image: eceasy/cli-proxy-api:latest
-    env_file: .env
+    environment:
+      API_KEYS: ${API_KEYS}
     volumes:
       - ./config.yaml.tpl:/tmp/config.yaml.tpl:ro
       - cli-proxy-api-auth:/root/.cli-proxy-api

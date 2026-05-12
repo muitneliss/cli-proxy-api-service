@@ -11,13 +11,16 @@ CLI Proxy API deployment + Codex CLI installer pointing at the proxy.
 
 ## Run proxy
 
+Local:
 ```bash
 cp .env.example .env
 # edit .env, set API_KEYS=key1,key2,...
 docker compose up -d
 ```
 
-Container reads `API_KEYS` (comma-separated) from `.env`, renders `config.yaml.tpl` into `/CLIProxyAPI/config.yaml` at boot, then execs `./CLIProxyAPI`. Auth state persists in named volume `cli-proxy-api-auth`.
+Dokploy: set `API_KEYS` in the service environment UI (comma-separated).
+
+Compose resolves `${API_KEYS}` from host env or `.env`. Container renders `config.yaml.tpl` into `/CLIProxyAPI/config.yaml` at boot, then execs `./CLIProxyAPI`. Auth state persists in named volume `cli-proxy-api-auth`.
 
 Server listens on `0.0.0.0:8317`. Management key is bcrypt-hashed in `config.yaml` under `remote-management.secret-key`.
 
