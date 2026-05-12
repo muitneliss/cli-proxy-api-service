@@ -4,25 +4,17 @@ CLI Proxy API deployment + Codex CLI installer pointing at the proxy.
 
 ## Components
 
-- `config.yaml.tpl` — proxy server config template (api-keys injected at boot)
-- `docker-compose.yml` — runs `eceasy/cli-proxy-api:latest`, renders config from env
-- `.env.example` — sample env file; copy to `.env` and fill in `API_KEYS`
+- `config.yaml` — proxy server config (edit `api-keys` list directly)
+- `docker-compose.yml` — runs `eceasy/cli-proxy-api:latest` with `config.yaml` mounted read-only
 - `install-codex.sh` — installs `@openai/codex` and wires it to the proxy upstream
 
 ## Run proxy
 
-Local:
 ```bash
-cp .env.example .env
-# edit .env, set API_KEYS=key1,key2,...
 docker compose up -d
 ```
 
-Dokploy: set `API_KEYS` in the service environment UI (comma-separated).
-
-Compose resolves `${API_KEYS}` from host env or `.env`. Container renders `config.yaml.tpl` into `/CLIProxyAPI/config.yaml` at boot, then execs `./CLIProxyAPI`. Auth state persists in named volume `cli-proxy-api-auth`.
-
-Server listens on `0.0.0.0:8317`. Management key is bcrypt-hashed in `config.yaml` under `remote-management.secret-key`.
+Edit `api-keys` in `config.yaml` before deploy. Auth state persists in named volume `cli-proxy-api-auth`. Server listens on `0.0.0.0:8317`. Management key bcrypt-hashed under `remote-management.secret-key`.
 
 ## Install Codex CLI
 
