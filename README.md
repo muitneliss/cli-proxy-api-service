@@ -6,7 +6,7 @@ CLI Proxy API deployment + Codex CLI installer pointing at the proxy.
 
 - `config.yaml` — proxy server config (edit `api-keys` list directly)
 - `docker-compose.yml` — runs `eceasy/cli-proxy-api:latest` with `config.yaml` mounted read-only
-- `install-codex.sh` — installs `@openai/codex` and wires it to the proxy upstream
+- Codex installer — public gist: https://gist.github.com/yanmad27/f01aa2e05d3dfb941b77532826e3e595
 
 ## Run proxy
 
@@ -18,14 +18,8 @@ Edit `api-keys` in `config.yaml` before deploy. Auth state persists in named vol
 
 ## Install Codex CLI
 
-One-liner (no clone):
 ```bash
-curl -fsSL https://raw.githubusercontent.com/tini-works/tini-cli-proxy-api/main/install-codex.sh | OPENAI_API_KEY=sk-xxx bash
-```
-
-Or from a checkout:
-```bash
-OPENAI_API_KEY=sk-xxx sh install-codex.sh
+curl -fsSL https://gist.githubusercontent.com/yanmad27/f01aa2e05d3dfb941b77532826e3e595/raw/install-codex.sh | OPENAI_API_KEY=sk-xxx bash
 ```
 
 Writes:
