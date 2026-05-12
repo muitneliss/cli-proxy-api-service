@@ -26,7 +26,7 @@ auth-dir: "/root/.cli-proxy-api"
 # API keys for authentication
 api-keys:
 # Enable debug logging
-debug: true
+debug: false
 # When true, disable high-overhead HTTP middleware features to reduce per-request memory usage under high concurrency.
 commercial-mode: false
 # When true, write application logs to rotating files instead of stdout
