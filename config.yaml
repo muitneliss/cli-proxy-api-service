@@ -25,6 +25,17 @@ remote-management:
 auth-dir: "/root/.cli-proxy-api"
 # API keys for authentication
 api-keys:
+  - sk-fSFyzA3v7xlFPtLyI
+  - sk-taNLVlPuckFyvzLqCD0XMzHKzlW-uza8
+  - sk-t3-jYYFqNmY8vuYWO6U73-8QEhQKrHnK
+  - sk-pj7PzwS5L9Hp1IKQABwT8xozg0_za19K
+  - sk-el5SoJxyuGK7ZykR0UQeSpeIkU7hh2dG
+  - sk-gYqb5B-HMKkOuBJUXscmPAovqzX5rPEn
+  - sk-RWhBidCILyTHJ7gcAOr-DQMl7IPeWL9J
+  - sk-9-cMp7SMB7I8dUPEYdpAOSLsRO5brW3_
+  - sk-UgP2uU3jlB8dZYQeFo2zNTFc0oNvL3eM
+  - sk-pZqdcGYrAcZoictOXmGLCnOX7KrA07vx
+  - sk-keMfImhDu70Dem7V1iUxdwbFfcYnWI8c
 # Enable debug logging
 debug: false
 # When true, disable high-overhead HTTP middleware features to reduce per-request memory usage under high concurrency.
@@ -85,35 +96,38 @@ claude-api-key: []
 openai-compatibility: []
 # Vertex API keys (Vertex-compatible endpoints, use API key + base URL)
 vertex-api-key: []
-# Amp Integration
-ampcode:
 # Configure upstream URL for Amp CLI OAuth and management features
-  # upstream-url: "https://ampcode.com"
+# upstream-url: "https://ampcode.com"
 # Optional: Override API key for Amp upstream (otherwise uses env or file)
-  # upstream-api-key: ""
+# upstream-api-key: ""
 # Per-client upstream API key mapping
 # Maps client API keys (from top-level api-keys) to different Amp upstream API keys.
 # Useful when different clients need to use different Amp accounts/quotas.
 # If a client key isn't mapped, falls back to upstream-api-key (default behavior).
-  # upstream-api-keys:
-  #   - upstream-api-key: "amp_key_for_team_b"
-  #     api-keys:
-  #       - "your-api-key-1"
+# upstream-api-keys:
+#   - upstream-api-key: "amp_key_for_team_b"
+#     api-keys:
+#       - "your-api-key-1"
 # Restrict Amp management routes (/api/auth, /api/user, etc.) to localhost only (default: false)
-  # restrict-management-to-localhost: false
+# restrict-management-to-localhost: false
 # Force model mappings to run before checking local API keys (default: false)
-  # force-model-mappings: false
+force-model-mappings: true
 # Amp Model Mappings
 # Route unavailable Amp models to alternative models available in your local proxy.
 # Useful when Amp CLI requests models you don't have access to (e.g., Claude Opus 4.5)
 # but you have a similar model available (e.g., Claude Sonnet 4).
-  # model-mappings:
-  #   - from: "claude-opus-4-5-20251101" # Model requested by Amp CLI
-  #     to: "gemini-claude-opus-4-5-thinking" # Route to this available model instead
-  #   - from: "claude-sonnet-4-5-20250929"
-  #     to: "gemini-claude-sonnet-4-5-thinking"
-  #   - from: "claude-haiku-4-5-20251001"
-  #     to: "gemini-2.5-flash"
+model-mappings:
+  - from: "claude-opus-5"
+    to: "claude-opus-5[1m]"
+  - from: "claude-fabel-5-1"
+    to: "claude-fabel-5-1[1m]"
+#   - from: "claude-sonnet-4-5-20250929"
+#   - from: "claude-opus-4-5-20251101" # Model requested by Amp CLI
+#     to: "gemini-claude-opus-4-5-thinking" # Route to this available model instead
+#   - from: "claude-sonnet-4-5-20250929"
+#     to: "gemini-claude-sonnet-4-5-thinking"
+#   - from: "claude-haiku-4-5-20251001"
+#     to: "gemini-2.5-flash"
 # Global OAuth model name aliases (per channel)
 # These aliases rename model IDs for both model listing and request routing.
 # Supported channels: gemini-cli, vertex, aistudio, antigravity, claude, codex.
@@ -171,30 +185,55 @@ oauth-excluded-models:
     - "gpt-5-codex-mini"
 # Optional payload configuration
 payload:
-  # default: # Default rules only set parameters when they are missing in the payload.
-  #   - models:
-  #       - name: "gemini-2.5-pro" # Supports wildcards (e.g., "gemini-*")
-  #         protocol: "gemini" # restricts the rule to a specific protocol, options: openai, gemini, claude, codex, antigravity
-  #     params: # JSON path (gjson/sjson syntax) -> value
-  #       "generationConfig.thinkingConfig.thinkingBudget": 32768
-  # default-raw: # Default raw rules set parameters using raw JSON when missing (must be valid JSON).
-  #   - models:
-  #       - name: "gemini-2.5-pro" # Supports wildcards (e.g., "gemini-*")
-  #         protocol: "gemini" # restricts the rule to a specific protocol, options: openai, gemini, claude, codex, antigravity
-  #     params: # JSON path (gjson/sjson syntax) -> raw JSON value (strings are used as-is, must be valid JSON)
-  #       "generationConfig.responseJsonSchema": "{\"type\":\"object\",\"properties\":{\"answer\":{\"type\":\"string\"}}}"
-  # override: # Override rules always set parameters, overwriting any existing values.
-  #   - models:
-  #       - name: "gpt-*" # Supports wildcards (e.g., "gpt-*")
-  #         protocol: "codex" # restricts the rule to a specific protocol, options: openai, gemini, claude, codex, antigravity
-  #     params: # JSON path (gjson/sjson syntax) -> value
-  #       "reasoning.effort": "high"
-  # override-raw: [] # Override raw rules always set parameters using raw JSON (must be valid JSON).
-  # filter: # Filter rules remove specified parameters from the payload.
-  #   - models:
-  #       - name: "gemini-2.5-pro" # Supports wildcards (e.g., "gemini-*")
-  #         protocol: "gemini" # restricts the rule to a specific protocol, options: openai, gemini, claude, codex, antigravity
-  #     params: # JSON paths (gjson/sjson syntax) to remove from the payload
-  #       - "generationConfig.thinkingConfig.thinkingBudget"
-  #       - "generationConfig.responseJsonSchema"
+  default: []
+  default-raw: []
+  override: []
+  override-raw: []
+  filter: []
+# default: # Default rules only set parameters when they are missing in the payload.
+#   - models:
+#       - name: "gemini-2.5-pro" # Supports wildcards (e.g., "gemini-*")
+#         protocol: "gemini" # restricts the rule to a specific protocol, options: openai, gemini, claude, codex, antigravity
+#     params: # JSON path (gjson/sjson syntax) -> value
+#       "generationConfig.thinkingConfig.thinkingBudget": 32768
+# default-raw: # Default raw rules set parameters using raw JSON when missing (must be valid JSON).
+#   - models:
+#       - name: "gemini-2.5-pro" # Supports wildcards (e.g., "gemini-*")
+#         protocol: "gemini" # restricts the rule to a specific protocol, options: openai, gemini, claude, codex, antigravity
+#     params: # JSON path (gjson/sjson syntax) -> raw JSON value (strings are used as-is, must be valid JSON)
+#       "generationConfig.responseJsonSchema": "{\"type\":\"object\",\"properties\":{\"answer\":{\"type\":\"string\"}}}"
+# override: # Override rules always set parameters, overwriting any existing values.
+#   - models:
+#       - name: "gpt-*" # Supports wildcards (e.g., "gpt-*")
+#         protocol: "codex" # restricts the rule to a specific protocol, options: openai, gemini, claude, codex, antigravity
+#     params: # JSON path (gjson/sjson syntax) -> value
+#       "reasoning.effort": "high"
+# override-raw: [] # Override raw rules always set parameters using raw JSON (must be valid JSON).
+# filter: # Filter rules remove specified parameters from the payload.
+#   - models:
+#       - name: "gemini-2.5-pro" # Supports wildcards (e.g., "gemini-*")
+#         protocol: "gemini" # restricts the rule to a specific protocol, options: openai, gemini, claude, codex, antigravity
+#     params: # JSON paths (gjson/sjson syntax) to remove from the payload
+#       - "generationConfig.thinkingConfig.thinkingBudget"
+#       - "generationConfig.responseJsonSchema"
 redis-usage-queue-retention-seconds: 60
+credential-concurrency:
+  cpa-heartbeat-timeout: 3s
+  cpa-cancel-bound: 5s
+  reclaim-grace: 5s
+  cleanup-interval: 5s
+  release-flush-interval: 250ms
+  release-max-backoff: 2s
+  busy-retry-min: 250ms
+  busy-retry-max: 1s
+  max-limit: 1000000
+credential-in-flight:
+  snapshot-interval: 2s
+  stale-after: 10s
+  max-part-bytes: 262144
+  max-part-count: 64
+  max-revision-bytes: 16777216
+  max-aggregate-groups: 100000
+  max-details: 10000
+  max-string-bytes: 256
+  staging-retention: 1m
