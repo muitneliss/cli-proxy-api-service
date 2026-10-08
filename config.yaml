@@ -25,17 +25,7 @@ remote-management:
 auth-dir: "/root/.cli-proxy-api"
 # API keys for authentication
 api-keys:
-  - sk-fSFyzA3v7xlFPtLyI
-  - sk-taNLVlPuckFyvzLqCD0XMzHKzlW-uza8
-  - sk-t3-jYYFqNmY8vuYWO6U73-8QEhQKrHnK
-  - sk-pj7PzwS5L9Hp1IKQABwT8xozg0_za19K
-  - sk-el5SoJxyuGK7ZykR0UQeSpeIkU7hh2dG
-  - sk-gYqb5B-HMKkOuBJUXscmPAovqzX5rPEn
-  - sk-RWhBidCILyTHJ7gcAOr-DQMl7IPeWL9J
-  - sk-9-cMp7SMB7I8dUPEYdpAOSLsRO5brW3_
-  - sk-UgP2uU3jlB8dZYQeFo2zNTFc0oNvL3eM
-  - sk-pZqdcGYrAcZoictOXmGLCnOX7KrA07vx
-  - sk-keMfImhDu70Dem7V1iUxdwbFfcYnWI8c
+  - sk-LlBuhY4E1OAb6wSyn1iapj4HW3i7mMkd59iIvIcJCV9EAEhG
 # Enable debug logging
 debug: false
 # When true, disable high-overhead HTTP middleware features to reduce per-request memory usage under high concurrency.
