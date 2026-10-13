@@ -59,15 +59,18 @@ quota-exceeded:
   antigravity-credits: true # Whether to use credits as last-resort fallback when all free-tier auths are exhausted for Claude models
 # Routing strategy for selecting credentials when multiple match.
 routing:
-  strategy: "round-robin" # round-robin (default), fill-first
-# Enable universal session-sticky routing for all clients.
-# Session IDs are extracted from: metadata.user_id (Claude Code session format),
-# X-Session-ID, Session_id (Codex), X-Amp-Thread-Id (Amp CLI),
-# X-Client-Request-Id (PI), conversation_id, or first few messages hash.
-# Automatic failover is always enabled when bound auth becomes unavailable.
-  session-affinity: false # default: false
-# How long session-to-auth bindings are retained. Default: 1h
+  strategy: "round-robin" # round-robin (default), weighted-round-robin, fill-first
+  session-affinity: true
   session-affinity-ttl: "1h"
+  # Task-tool subagents inside one Paseo seat stay on that seat's account.
+  session-affinity-subagents: true
+  # Only quota/auth errors (429, 401/402/403) move a session to the other account.
+  # Transient 5xx errors fail over for that one request; the session stays on its account and keeps its cache.
+  session-affinity-rebind-on: "quota"
+  force-model-prefix: false
+  retry:
+      request-retry: 3
+      max-retry-interval: 30
 # When true, enable authentication for the WebSocket API (/v1/ws).
 ws-auth: false
 # When > 0, emit blank lines every N seconds for non-streaming responses to prevent idle timeouts.
